@@ -3,6 +3,8 @@ const client = new Discord.Client();
 
 const {token} = require('./config/keys.json');
 
+require('./web');
+
 // Set up Bot handlers
 ["aliases", "commands", "events", "help"].forEach(x => client[x] = new Discord.Collection());
 

@@ -1,3 +1,4 @@
 {
-    "prefix": "bot prefix"
+    "prefix": "bot prefix",
+    "port": "express.js port"
 }
