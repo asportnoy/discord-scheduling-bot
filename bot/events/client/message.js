@@ -7,9 +7,9 @@ module.exports = async (client, msg) => {
 
     if (content.startsWith(prefix)) {
         const args = split(content.slice(prefix.length));
-        console.log(args);
-        const command = args.shift();
+        let command = args.shift();
 
+        if (client.aliases.get(command)) command = client.aliases.get(command);
         const handler = client.commands.get(command);
         if (handler) handler.run(msg, command, args);
     }
