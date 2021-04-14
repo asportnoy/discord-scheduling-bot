@@ -16,11 +16,12 @@
 
 <body>
     <div id="app" v-cloak>
-        <div v-if="loading">
-            {{status}}
-        </div>
-        <div v-else>
-            {{message}}
+        <div class="d-flex justify-content-center flex-column p-4">
+            <span id="hover">&nbsp;</span>
+            <div id="map"></div>
+            <span id="zone"></span>
+            <span id="time"></span>
+            <button class="btn btn-primary m-4" v-on:click="save">Save</button>
         </div>
     </div>
 
@@ -30,11 +31,19 @@
     </script>
 
     <!-- Load Vue followed by BootstrapVue -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
     <script src="//unpkg.com/vue@2.6.12/dist/vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.js"></script>
 
     <!-- Load the following for BootstrapVueIcons support -->
     <script src="//unpkg.com/bootstrap-vue@2.21.2/dist/bootstrap-vue-icons.min.js"></script>
+
+    <!-- Timezone selector -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment-timezone@0.5.33/builds/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timezone-picker@2.0.0-1/dist/timezone-picker.min.js"></script>
 
     <script src="/src/js/timezone.js"></script>
 </body>
