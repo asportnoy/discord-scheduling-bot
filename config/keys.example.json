@@ -1,3 +1,4 @@
 {
-    "token": "discord bot token"
+    "token": "discord bot token",
+    "mongo": "mongodb login URL"
 }
