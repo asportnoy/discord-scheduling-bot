@@ -79,7 +79,23 @@ async function findUser(q, client, guild) {
     }
 }
 
+// Turn a partial into a full object
+async function getFullStructure(el) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!el) return reject();
+            if (!el.partial) return resolve(el);
+            const fullStructure = await el.fetch().catch(e => {});
+            if (!fullStructure) return reject();
+            return resolve(fullStructure);
+        } catch(e) {
+            return reject(e);
+        }
+    })
+}
+
 module.exports = {
     idFromMention,
-    findUser
+    findUser,
+    getFullStructure
 };
