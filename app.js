@@ -1,7 +1,11 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client({
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER']
+});
 
-const {token} = require('./config/keys.json');
+const {
+    token
+} = require('./config/keys.json');
 
 // Start web server
 require('./web')(client);
