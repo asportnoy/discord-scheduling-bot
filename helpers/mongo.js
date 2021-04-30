@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const keys = require('../config/keys.json');
 const crypto = require('crypto');
 const dayjs = require('dayjs');
+const {
+    UserManager
+} = require('discord.js');
 
 const {
     Schema
@@ -12,11 +15,23 @@ mongoose.connect(keys.mongo, {
     useUnifiedTopology: true
 });
 
+// Time formats
+
 // User schema
 
 const userSchema = new Schema({
     id: String,
     timezone: String,
+    format: {
+        name: {
+            type: String,
+            default: '12 hour'
+        },
+        format: {
+            type: String,
+            default: 'h:mm A'
+        }
+    },
     webtoken: {
         string: String,
         expires: Date,
@@ -117,6 +132,21 @@ userSchema.methods.verifyToken = async function (token, action) {
         valid: true,
         reason: null
     }
+}
+
+// Get time format for user
+userSchema.methods.getFormat = function () {
+    return this.format;
+}
+
+// Set time format for user
+userSchema.methods.setFormat = async function (name, format) {
+    this.format = {
+        name,
+        format
+    };
+    await this.save();
+    return;
 }
 
 const User = mongoose.model('user', userSchema);
