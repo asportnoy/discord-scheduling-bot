@@ -50,6 +50,9 @@ module.exports = async (client, reaction, user) => {
         if (!authorUser || !authorUser.timezone) return user.send(`We could not get ${author.username}'s time.`).catch(e => {});
         if (!reactionUser || !reactionUser.timezone) return user.send(`You do not have a time zone set.`).catch(e => {});
 
+        // Time format
+        const format = authorUser.getFormat().format;
+
         const authorTime = dayjs().tz(authorUser.timezone);
         const userTime = dayjs().tz(reactionUser.timezone);
 
@@ -69,8 +72,8 @@ module.exports = async (client, reaction, user) => {
         const converted = parsed.map(x => {
             if (x.start) x.start = x.start.tz(reactionUser.timezone);
             if (x.end) x.end = x.end.tz(reactionUser.timezone);
-            if (x.start) x.startText = x.start.format('h:mm A');
-            if (x.end) x.endText = x.end.format('h:mm A');
+            if (x.start) x.startText = x.start.format(format);
+            if (x.end) x.endText = x.end.format(format);
             return x;
         });
 
@@ -104,7 +107,7 @@ module.exports = async (client, reaction, user) => {
             },
             title: 'Timezone Conversion',
             // Time zone names, time difference, author time
-            description: `${authorUser.timezone} ➡️ ${reactionUser.timezone}\n\n${author.username}'s time is ${changeString} (currently ${authorTime.format('h:mm A')}).`,
+            description: `${authorUser.timezone} ➡️ ${reactionUser.timezone}\n\n${author.username}'s time is ${changeString} (currently ${authorTime.format(format)}).`,
             fields: result.map(x => ({ // Turn the times into fields
                 name: x.string,
                 value: x.converted
