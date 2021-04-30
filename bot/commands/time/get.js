@@ -26,7 +26,17 @@ module.exports.run = async (msg, command, args) => {
         client,
         guild
     } = msg;
-    
+
+    // Get user from database and create if doesn't exist
+    let dbUser = await User.findOne().id(author.id);
+    if (!dbUser) {
+        user = await new User({
+            id: author.id
+        }).save();
+    }
+    // Time format
+    const format = dbUser.getFormat().format;
+
     // Use current user if none provided
     let q = args.join(' ') || author.id;
 
@@ -39,17 +49,32 @@ module.exports.run = async (msg, command, args) => {
 
     // Find the user in the database and check if they have a timezone set
     let target = await User.findOne().id(user.id);
-    if (!target || !target.timezone) return channel.send(`${user.tag} has not set a timezone.`).catch(e => {});
+    if (!target || !target.timezone) return channel.send(`<@${user.id}> has not set a timezone.`, {
+        allowedMentions: {
+            users: [],
+            roles: []
+        }
+    }).catch(e => {});
 
 
     try {
         // Get their local time
-        let time = dayjs().tz(target.timezone).format('h:mm A');
-        
+        let time = dayjs().tz(target.timezone).format(format);
+
         // Display it
-        return channel.send(`${user.tag}'s current time is **${time}** (\`${target.timezone}\`).`).catch(e => {});
+        return channel.send(`<@${user.id}>'s current time is **${time}** (\`${target.timezone}\`).`, {
+            allowedMentions: {
+                users: [],
+                roles: []
+            }
+        }).catch(e => {});
     } catch (e) {
-        return channel.send(`Could not get ${user.tag}'s time: invalid timezone.`).catch(e => {});
+        return channel.send(`Could not get <@${user.id}>'s time: invalid timezone.`, {
+            allowedMentions: {
+                users: [],
+                roles: []
+            }
+        }).catch(e => {});
     }
 }
 
