@@ -22,13 +22,15 @@ module.exports.run = async (msg, command, args) => {
             id: author.id
         }).save();
     }
+    // Time format
+    const format = user.getFormat().format;
 
     // Generate a token for the website
     const token = await user.generateToken('timezone', 60 * 1000 * 10, true);
     if (!token) return channel.send(`<@${author.id}> Could not generate a timezone link for you. Please try again.`).catch(e => {});
 
     // Generate a URL with params
-    const url = `${domain}/timezone?id=${author.id}&code=${token}`;
+    const url = `${domain}/timezone?id=${author.id}&code=${token}&format=${encodeURIComponent(format)}`;
 
     // DM the link to the user
     author.send(new Discord.MessageEmbed({
