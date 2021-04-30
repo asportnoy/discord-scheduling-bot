@@ -1,6 +1,7 @@
 const querystring = new URLSearchParams(window.location.search);
 const id = querystring.get('id');
 const code = querystring.get('code');
+const format = querystring.get('format') || 'h:mm A';
 
 new Vue({
     el: '#app',
@@ -44,7 +45,7 @@ new Vue({
             if (!this.map || !this.map.data('timezonePicker')) return;
             const value = this.map.data('timezonePicker').getValue()[0];
             if (!value) return;
-            const now = moment().tz(value.timezone).format('h:mm A');
+            const now = moment().tz(value.timezone).format(format);
             if (zone) {
                 document.getElementById('zone').innerText = value.timezone;
                 document.getElementById('hover').innerText = value.timezone;
