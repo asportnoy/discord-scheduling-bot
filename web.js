@@ -57,7 +57,7 @@ module.exports = async (client) => {
         if (!valid.valid) return res.status(400).send(reason || 'This code is not valid.');
 
         res.sendFile(__dirname + '/views/pages/timezone.html');
-    })
+    });
 
     app.post('/timezone', async (req, res) => {
         const {
@@ -67,17 +67,21 @@ module.exports = async (client) => {
 
         const zone = req.body;
 
+        // Validate code
         if (!id || !code) return res.status(400).send('ID or code missing from URL.');
         const user = await User.findOne().id(id);
         if (!user) return res.status(400).send('Could not find user.');
         const valid = await user.verifyToken(code, 'timezone');
-
         const reason = valid.reason ? verifyReasons[valid.reason] : null;
-
         if (!valid.valid) return res.status(400).send(reason || 'This code is not valid.');
 
+        // Time format
+        const format = user.getFormat().format;
+
+        // Make sure zone is valid
         if (!zone || typeof zone !== 'string') return res.status(400).send('Invalid zone.');
 
+        // Set zone
         let day;
         try {
             day = dayjs().tz(zone);
@@ -85,11 +89,13 @@ module.exports = async (client) => {
             return res.status(400).send('Invalid zone.');
         }
 
+        // Update DB
         await user.clearToken();
         user.timezone = zone;
         await user.save();
         res.status(200).send('Set your timezone.');
 
+        // Notify user
         try {
             const discorduser = await client.users.fetch(id).catch(e => {console.log(e)});
             if (!discorduser) return;
@@ -101,7 +107,7 @@ module.exports = async (client) => {
                     })
                 },
                 title: 'Timezone Set',
-                description: `Your timezone was set to \`${zone}\`. The current time is **${day.format('h:mm A')}**.`,
+                description: `Your timezone was set to \`${zone}\`. The current time is **${day.format(format)}**.`,
                 timestamp: dayjs()
             })).catch(e => {console.log(e)});
         } catch (e) {
