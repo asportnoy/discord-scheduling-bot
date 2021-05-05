@@ -1,4 +1,4 @@
 {
-    "token": "discord bot token",
-    "mongo": "mongodb login URL"
+    "token": "Discord bot token",
+    "mongo": "mongoDB connection string, should start with mongodb://"
 }

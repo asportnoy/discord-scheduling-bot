@@ -1,5 +1,5 @@
 {
-    "prefix": "bot prefix",
-    "port": "express.js port",
-    "domain": "domain to use for links, including protocol"
+    "prefix": "Prefix for bot commands",
+    "port": "Port for express web server or null to disable",
+    "domain": "Domain to use for web server links, including protocol (eg https://example.com)"
 }
