@@ -6,7 +6,7 @@ const {
 } = require('../../../helpers/mongo');
 
 const {
-    domain
+    domain, port, prefix
 } = require('../../../config/config.json');
 
 module.exports.run = async (msg, command, args) => {
@@ -22,9 +22,23 @@ module.exports.run = async (msg, command, args) => {
             id: author.id
         }).save();
     }
+
     // Time format
     const format = user.getFormat().format;
 
+    if (args[0]) {
+        let day;
+        try {
+            day = dayjs().tz(args[0]);
+        } catch (e) {
+            return channel.send(`<@${author.id}> Invalid timezone`).catch(e => {});
+        }
+        user.timezone = args[0];
+        await user.save();
+        return channel.send(`<@${author.id}> Your timezone was set to \`${args[0]}\`. The current time is **${day.format(format)}**.`).catch(e => {});
+    }
+
+    if (!domain || !port) return channel.send(`<@${author.id}> Web setup is unavailable. Please specify a time zone to set. Usage: \`${prefix}set [zone]\`.\nFor a list of time zones, please see <https://github.com/asportnoy/scheduler/blob/main/zones.md>.`).catch(e => {});
     // Generate a token for the website
     const token = await user.generateToken('timezone', 60 * 1000 * 10, true);
     if (!token) return channel.send(`<@${author.id}> Could not generate a timezone link for you. Please try again.`).catch(e => {});
