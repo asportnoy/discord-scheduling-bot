@@ -4,11 +4,15 @@ const client = new Discord.Client({
 });
 
 const {
+    port, domain
+} = require('./config/config.json');
+
+const {
     token
 } = require('./config/keys.json');
 
 // Start web server
-require('./web')(client);
+if (port && domain) require('./web')(client);
 
 // Set up Bot handlers
 ["aliases", "commands", "events", "help"].forEach(x => client[x] = new Discord.Collection());

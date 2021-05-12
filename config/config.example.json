@@ -1,5 +1,5 @@
 {
     "prefix": "Prefix for bot commands",
     "port": "Port for express web server or null to disable",
-    "domain": "Domain to use for web server links, including protocol (eg https://example.com)"
+    "domain": "Domain to use for web server links, including protocol (eg https://example.com) or null to disable"
 }
