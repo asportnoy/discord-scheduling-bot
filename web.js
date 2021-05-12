@@ -23,14 +23,7 @@ const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-
-const {
-    UserFlags
-} = require('discord.js');
-
 module.exports = async (client) => {
-
-
     const app = express();
     app.use(cors());
     app.listen(port);
