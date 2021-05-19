@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "npm install; mv -n ./config/config.example.json ./config/config.json 2>/dev/null; mv -n ./config/keys.example.json ./config/keys.json 2>/dev/null; echo \"\\033[0;36m\u001b[1mIf you haven't already, please set up the config files in /config with your own values.\""
+    "build": "npm install; cp -n ./config/config.example.json ./config/config.json 2>/dev/null; cp -n ./config/keys.example.json ./config/keys.json 2>/dev/null; echo \"\\033[0;36m\u001b[1mIf you haven't already, please set up the config files in /config with your own values.\""
   },
   "repository": {
     "type": "git",
