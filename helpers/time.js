@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+const chrono = require('chrono-node');
 
 const utc = require('dayjs/plugin/utc')
 const timezone = require('dayjs/plugin/timezone')
@@ -58,6 +59,13 @@ function generateCalendarLinks(start, end, title, description, location) {
     }];
 }
 
+// Find dates/times in text
+function extractDates(string) {
+    const dates = chrono.parse(string);
+    return dates;
+}
+
 module.exports = {
-    generateCalendarLinks
+    generateCalendarLinks,
+    extractDates
 };

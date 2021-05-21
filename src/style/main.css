@@ -1,0 +1,21 @@
+[v-cloak] {
+    display: none;
+}
+
+#map {
+    max-width: 80vw;
+    max-height: 70vh;
+}
+
+#map polygon[data-selected='true'] {
+    fill: #496a84;
+}
+
+#map polygon {
+    fill: #bbb;
+}
+
+#map polygon:hover {
+    fill: #5a5a5a;
+    cursor: pointer;
+}
